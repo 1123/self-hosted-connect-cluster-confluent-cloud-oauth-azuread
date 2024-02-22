@@ -1,0 +1,70 @@
+bootstrap.servers=
+
+group.id=connect-cluster
+
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+key.converter.schemas.enable=false
+value.converter.schemas.enable=false
+
+internal.key.converter=org.apache.kafka.connect.json.JsonConverter
+internal.value.converter=org.apache.kafka.connect.json.JsonConverter
+internal.key.converter.schemas.enable=false
+internal.value.converter.schemas.enable=false
+
+# Connect clusters create three topics to manage offsets, configs, and status
+# information. Note that these contribute towards the total partition limit quota.
+offset.storage.topic=connect-offsets
+offset.storage.replication.factor=3
+offset.storage.partitions=3
+
+config.storage.topic=connect-configs
+config.storage.replication.factor=3
+
+status.storage.topic=connect-status
+status.storage.replication.factor=3
+
+offset.flush.interval.ms=10000
+
+ssl.endpoint.identification.algorithm=https
+security.protocol=SASL_SSL
+sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
+sasl.mechanism=OAUTHBEARER
+sasl.jaas.config= \
+  org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+    clientId='' \
+    scope='/.default' \
+    clientSecret='' \
+    extension_logicalCluster='' \
+    extension_identityPoolId='';
+
+consumer.ssl.endpoint.identification.algorithm=https
+consumer.security.protocol=SASL_SSL
+consumer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+consumer.sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
+consumer.sasl.mechanism=OAUTHBEARER
+consumer.sasl.jaas.config= \
+  org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+    clientId='' \
+    scope='.../.default' \
+    clientSecret='' \
+    extension_logicalCluster='' \
+    extension_identityPoolId='';
+
+producer.ssl.endpoint.identification.algorithm=https
+producer.security.protocol=SASL_SSL
+producer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+producer.sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
+producer.sasl.mechanism=OAUTHBEARER
+producer.sasl.jaas.config= \
+  org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+    clientId='...' \
+    scope='.../.default' \
+    clientSecret='...' \
+    extension_logicalCluster='...' \
+    extension_identityPoolId='...';
+
+# Set to a list of filesystem paths separated by commas (,) to enable class loading isolation for plugins
+# (connectors, converters, transformations).
+plugin.path=/home/azureuser/repos/1123/daimler/azure-pl/confluent-7.6.0/share/confluent-hub-components

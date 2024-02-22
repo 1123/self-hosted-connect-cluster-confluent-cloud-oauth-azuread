@@ -1,0 +1,1 @@
+nmap -p 9093 $BOOTSTRAP
