@@ -1,11 +1,11 @@
-bootstrap.servers=
+bootstrap.servers=BOOTSTRAP_SERVER
 
 group.id=connect-cluster
 
 key.converter=org.apache.kafka.connect.json.JsonConverter
-value.converter=org.apache.kafka.connect.json.JsonConverter
+# value.converter=org.apache.kafka.connect.json.JsonConverter
 key.converter.schemas.enable=false
-value.converter.schemas.enable=false
+value.converter.schemas.enable=true
 
 internal.key.converter=org.apache.kafka.connect.json.JsonConverter
 internal.value.converter=org.apache.kafka.connect.json.JsonConverter
@@ -28,43 +28,54 @@ offset.flush.interval.ms=10000
 
 ssl.endpoint.identification.algorithm=https
 security.protocol=SASL_SSL
-sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/TENANT_ID/oauth2/v2.0/token
 sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
 sasl.mechanism=OAUTHBEARER
 sasl.jaas.config= \
   org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
-    clientId='' \
-    scope='/.default' \
-    clientSecret='' \
-    extension_logicalCluster='' \
-    extension_identityPoolId='';
+    clientId='CLIENT_ID' \
+    scope='CLIENT_ID/.default' \
+    clientSecret='CLIENT_SECRET' \
+    extension_logicalCluster='LOGICAL_CLUSTER_ID' \
+    extension_identityPoolId='IDENTITY_POOL_ID';
 
 consumer.ssl.endpoint.identification.algorithm=https
 consumer.security.protocol=SASL_SSL
-consumer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+consumer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/TENANT_ID/oauth2/v2.0/token
 consumer.sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
 consumer.sasl.mechanism=OAUTHBEARER
 consumer.sasl.jaas.config= \
   org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
-    clientId='' \
-    scope='.../.default' \
-    clientSecret='' \
-    extension_logicalCluster='' \
-    extension_identityPoolId='';
+    clientId='CLIENT_ID' \
+    scope='CLIENT_ID/.default' \
+    clientSecret='CLIENT_SECRET' \
+    extension_logicalCluster='LOGICAL_CLUSTER_ID' \
+    extension_identityPoolId='IDENTITY_POOL_ID';
 
 producer.ssl.endpoint.identification.algorithm=https
 producer.security.protocol=SASL_SSL
-producer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/.../oauth2/v2.0/token
+producer.sasl.oauthbearer.token.endpoint.url=https://login.microsoftonline.com/TENANT_ID/oauth2/v2.0/token
 producer.sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
 producer.sasl.mechanism=OAUTHBEARER
 producer.sasl.jaas.config= \
   org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
-    clientId='...' \
-    scope='.../.default' \
-    clientSecret='...' \
-    extension_logicalCluster='...' \
-    extension_identityPoolId='...';
+    clientId='CLIENT_ID' \
+    scope='CLIENT_ID/.default' \
+    clientSecret='CLIENT_SECRET' \
+    extension_logicalCluster='LOGICAL_CLUSTER_ID' \
+    extension_identityPoolId='IDENTITY_POOL_ID';
 
 # Set to a list of filesystem paths separated by commas (,) to enable class loading isolation for plugins
 # (connectors, converters, transformations).
-plugin.path=/home/azureuser/repos/1123/daimler/azure-pl/confluent-7.6.0/share/confluent-hub-components
+plugin.path=CONFLUENT_INSTALLATION_DIRECTORY/confluent-7.6.0/share/confluent-hub-components
+
+value.converter=io.confluent.connect.avro.AvroConverter
+value.converter.schema.registry.url=SCHEMA_REGISTRY_URL
+
+value.converter.bearer.auth.credentials.source=OAUTHBEARER
+value.converter.bearer.auth.issuer.endpoint.url=https://login.microsoftonline.com/TENANT_ID/oauth2/v2.0/token
+value.converter.bearer.auth.client.id=CLIENT_ID
+value.converter.bearer.auth.client.secret=CLIENT_SECRET
+value.converter.bearer.auth.scope=CLIENT_ID/.default
+value.converter.bearer.auth.logical.cluster=SCHEMA_REGISTRY_CLUSTER_ID
+value.converter.bearer.auth.identity.pool.id=IDENTITY_POOL_ID

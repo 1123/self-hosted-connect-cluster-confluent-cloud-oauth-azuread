@@ -1,1 +1,1 @@
-nmap -p 9093 $BOOTSTRAP
+nmap -p 9093 $BOOTSTRAP_SERVERS
